@@ -26,7 +26,10 @@
 #ifndef RFM69_h
 #define RFM69_h
 #include <Arduino.h>            // assumes Arduino IDE v1.0 or greater
+
+#if !defined(__AVR_ATtiny85__)
 #include <SPI.h>
+#endif
 
 //////////////////////////////////////////////////////////////////////
 //Platform and digitalPinToInterrupt definitions credit to RadioHead//
@@ -108,7 +111,11 @@
 #endif
 ////////////////////////////////////////////////////
 
-#define RF69_SPI_CS             SS // SS is the SPI slave select pin, for instance D10 on ATmega328
+#if defined(__AVR_ATtiny85__)
+  #define RF69_SPI_CS           3
+#else
+  #define RF69_SPI_CS             SS // SS is the SPI slave select pin, for instance D10 on ATmega328
+#endif
 
 // INT0 on AVRs should be connected to RFM69's DIO0 (ex on ATmega328 it's D2, on ATmega644/1284 it's D2)
 #if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega88) || defined(__AVR_ATmega8__) || defined(__AVR_ATmega88__)
@@ -123,6 +130,8 @@
   #define RF69_IRQ_PIN          9
 #elif defined(ARDUINO_SAMD_ZERO) //includes Feather SAMD
   #define RF69_IRQ_PIN          3
+#elif defined(__AVR_ATtiny85__)
+  #define RF69_IRQ_PIN          4
 #else
   #define RF69_IRQ_PIN          2
 #endif
@@ -152,6 +161,9 @@
 #define RFM69_CTL_SENDACK   0x80
 #define RFM69_CTL_REQACK    0x40
 
+#if !defined(__AVR_ATtiny85__)
+  #define SERIAL_DEBUG
+#endif
 //#define RF69_LISTENMODE_ENABLE  //comment this line out to compile sketches without the ListenMode (saves ~2k)
 
 #if defined(RF69_LISTENMODE_ENABLE)

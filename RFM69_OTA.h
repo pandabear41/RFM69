@@ -34,6 +34,8 @@
 #ifndef RFM69_OTA_H
 #define RFM69_OTA_H
 
+#if !defined(__AVR_ATtiny85__)
+
 #include <RFM69.h>
 #include <SPIFlash.h>
 
@@ -83,4 +85,5 @@ uint8_t BYTEfromHEX(char MSB, char LSB);
 uint8_t readSerialLine(char* input, char endOfLineChar=10, uint8_t maxLength=115, uint16_t timeout=1000);
 void PrintHex83(uint8_t* data, uint8_t length);
 
+#endif
 #endif

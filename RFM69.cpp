@@ -25,7 +25,7 @@
 // **********************************************************************************
 #include <RFM69.h>
 #include <RFM69registers.h>
-#include <SPI.h>
+#include <RFM69_SPI.h>
 
 uint8_t RFM69::DATA[RF69_MAX_DATA_LEN];
 uint8_t RFM69::_mode;        // current transceiver state
@@ -542,6 +542,7 @@ void RFM69::setCS(uint8_t newSPISlaveSelect) {
 }
 
 //for debugging
+#if defined(SERIAL_DEBUG)
 #define REGISTER_DETAIL 0
 #if REGISTER_DETAIL
 // SERIAL PRINT
@@ -555,6 +556,7 @@ void SerialPrint_P(PGM_P str, void (*f)(uint8_t) = SerialWrite ) {
   for (uint8_t c; (c = pgm_read_byte(str)); str++) (*f)(c);
 }
 #endif
+
 
 void RFM69::readAllRegs()
 {
@@ -848,6 +850,8 @@ void RFM69::readAllRegsCompact() {
     Serial.print(" ");
   }
 }
+
+#endif // SERIAL_DEBUG
 
 uint8_t RFM69::readTemperature(uint8_t calFactor) // returns centigrade
 {

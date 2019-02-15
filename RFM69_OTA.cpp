@@ -30,6 +30,8 @@
 // Please maintain this license information along with authorship
 // and copyright notices in any redistribution of this code
 // **********************************************************************************
+#if !defined(__AVR_ATtiny85__)
+
 #include <RFM69_OTA.h>
 #include <RFM69registers.h>
 
@@ -555,3 +557,5 @@ void resetUsingWatchdog(uint8_t DEBUG)
   while (WDT->STATUS.bit.SYNCBUSY == 1);
 #endif
 }
+
+#endif 
